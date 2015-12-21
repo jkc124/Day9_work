@@ -16,7 +16,8 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="1dp"
             android:textColor="#ff000000"
-            android:textSize="13dp" />
+            android:textSize="13dp"
+            android:textAlignment="center"/>
 
         <TextView
             android:id="@+id/weather_wf"
@@ -24,13 +25,16 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="1dp"
             android:textColor="#ff000000"
-            android:textSize="13dp" />
+            android:textSize="13dp"
+            android:textAlignment="center"/>
 
         <TextView
             android:id="@+id/weather_tmn"
             android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:textColor="#ff000000"
+            android:gravity="right"
+            android:paddingRight="10dp"
             android:textSize="13dp" />
 
         <TextView
@@ -38,6 +42,8 @@
             android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:textColor="#ff000000"
+            android:gravity="right"
+            android:paddingRight="10dp"
             android:textSize="13dp" />
 
         <ImageView

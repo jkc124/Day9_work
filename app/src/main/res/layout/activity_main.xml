@@ -160,12 +160,14 @@
             android:layout_marginRight="1dp"
             android:textColor="#ffffffff"
             android:background="#ff333333"
-            android:text="날짜/시간"/>
+            android:text="날짜/시간"
+            android:textAlignment="center"/>
 
         <TextView
             android:layout_width="80dp"
             android:layout_height="wrap_content"
             android:text="상태"
+            android:textAlignment="center"
             android:layout_marginRight="1dp"
             android:textColor="#ffffffff"
             android:background="#ff333333"/>
@@ -174,6 +176,7 @@
             android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:text="최저"
+            android:textAlignment="center"
             android:layout_marginRight="1dp"
             android:textColor="#ffffffff"
             android:background="#ff333333"/>
@@ -182,6 +185,7 @@
             android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:text="최고"
+            android:textAlignment="center"
             android:layout_marginRight="1dp"
             android:textColor="#ffffffff"
             android:background="#ff333333"/>
@@ -191,6 +195,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="아이콘"
+            android:textAlignment="center"
             android:textColor="#ffffffff"
             android:background="#ff333333"/>
 
