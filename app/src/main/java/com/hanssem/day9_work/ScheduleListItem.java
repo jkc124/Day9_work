@@ -8,6 +8,12 @@ public class ScheduleListItem {
     private String wkKor;
     private int icon;
 
+    private String tmEf;
+    private String wf;
+    private String tmn;
+    private String tmx;
+
+
 
     public ScheduleListItem() {
 
@@ -30,6 +36,16 @@ public class ScheduleListItem {
         wkKor = inWfKor;
         icon = inIcon;
     }
+
+    public ScheduleListItem(String inTmEf, String inWf, String inTmn, String inTmx ,int inIcon){
+        tmEf = inTmEf;
+        wf = inWf;
+        tmn = inTmn;
+        tmx = inTmx;
+        icon = inIcon;
+    }
+
+
 
 
     public String getTime() {
@@ -73,4 +89,31 @@ public class ScheduleListItem {
     public void setIcon(int icon){
         this.icon = icon;
     }
+
+    //new
+    public String getTmEf(){return tmEf;}
+
+    public void setTmEf(String tmEf){
+        this.tmEf = tmEf;
+    }
+
+    public String getWf(){return wf;}
+
+    public void setWf(String wf){
+        this.wf = wf;
+    }
+
+    public String getTmx(){return tmx;}
+
+    public void setTmn(String tmn){
+        this.tmn = tmn;
+    }
+
+    public String getTmn(){return tmn;}
+
+    public void setTmx(String tmx){
+        this.tmx = tmx;
+    }
+
+
 }

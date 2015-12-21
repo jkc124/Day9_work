@@ -62,9 +62,10 @@ public class ScheduleListAdapter extends BaseAdapter {
         }
 
         ScheduleListItem curItem = (ScheduleListItem) scheduleList.get(position);
-        itemView.setWeather_hour(curItem.getHour());
-        itemView.setWeather_temp(curItem.getTemp());
-        itemView.setWeather_wfKor(curItem.getWkKor());
+        itemView.setWeather_tmEf(curItem.getTmEf());
+        itemView.setWeather_wf(curItem.getWf());
+        itemView.setWeather_tmn(curItem.getTmn());
+        itemView.setWeather_tmx(curItem.getTmx());
         itemView.setWeather_icon(curItem.getIcon());
 
         return itemView;

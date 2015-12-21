@@ -113,7 +113,8 @@ public class MainActivity extends ActionBarActivity {
             public void onClick(View v) {
                 // 날씨 xml파싱
                 GetXML xml=new GetXML();
-                xml.execute("http://www.kma.go.kr/wid/queryDFSRSS.jsp?zone=1165059000"); // 방배본동 날씨 주소
+                /*xml.execute("http://www.kma.go.kr/wid/queryDFSRSS.jsp?zone=1165059000"); // 방배본동 날씨 주소*/
+                xml.execute("http://www.kma.go.kr/weather/forecast/mid-term-rss3.jsp?stnId=109"); // 중부지방 주간날씨
                 /*showScheduleInput();*/
             }
         });
@@ -193,59 +194,107 @@ public class MainActivity extends ActionBarActivity {
         @Override
         protected void onPostExecute(Document doc) {
             NodeList nodeList = doc.getElementsByTagName("data"); // 파싱된 xml의 data 태그를 가져와 nodeList에 담음
-            ArrayList<String> get_temp = new ArrayList<String>(); //온도를 담을 배열
-            ArrayList<String> get_wfKor = new ArrayList<String>(); // 날씨상태를 담을 배열
-            ArrayList<String> get_hour = new ArrayList<String>(); // 시간을 담을 배열
+
+            ArrayList<String> get_tmEf = new ArrayList<String>(); //날짜를 담을 배열
+            ArrayList<String> get_wf = new ArrayList<String>(); //날씨정보 담을 배열
+            ArrayList<String> get_tmn = new ArrayList<String>(); //최저 온도를 담을 배열
+            ArrayList<String> get_tmx = new ArrayList<String>(); //최고 온도를 담을 배열
+            ArrayList<Integer> get_icon = new ArrayList<Integer>(); // 아이콘을 담을 배열
 
 
-            for(int i=0; i<5; i++) { // 최근 3시간 간격 5개의 날씨를 가져옴
-                Node node = nodeList.item(i);//data 엘리먼트
-                Element element = (Element) node;
-                NodeList temp = element.getElementsByTagName("temp"); // 온도를 가져옴
-                /*get_temp=temp.item(0).getChildNodes().item(0).getNodeValue();*/
-                /*System.out.println("################온도 : " + get_temp );*/
-                Node text1 = (Node)temp.item(0).getFirstChild();
-                String strTemp = text1.getNodeValue();
-                get_temp.add(strTemp);
+            for(int i=0; i<13; i++){
+                Node node = nodeList.item(i);
+                Element element = (Element)node;
 
-                NodeList wfKor = element.getElementsByTagName("wfKor"); // 날씨정보
-                /*get_wfKor = wfKor.item(0).getChildNodes().item(0).getNodeValue();*/
-                /*System.out.println("################날씨 : "+get_wfKor);*/
-                Node text2 = (Node)wfKor.item(0).getFirstChild();
-                String strWfKor = text2.getNodeValue();
-                get_wfKor.add(strWfKor);
+                // 날짜
+                NodeList tmEf = element.getElementsByTagName("tmEf");
+                Node text1 = (Node)tmEf.item(0).getFirstChild();
+                System.out.println("###########################"+text1.getNodeValue().substring(11, 16));
+                if(text1.getNodeValue().substring(11, 16).contains("00:00")){
+                    String strTmEf = text1.getNodeValue().substring(5, 11)+"오전";
+                    get_tmEf.add(strTmEf);
+                }else if(text1.getNodeValue().substring(11, 16).contains("12:00")){
+                    String strTmEf = text1.getNodeValue().substring(5, 11)+"오후";
+                    get_tmEf.add(strTmEf);
+                }
 
-                NodeList hour = element.getElementsByTagName("hour"); // 시간
-                /*get_hour = hour.item(0).getChildNodes().item(0).getNodeValue();*/
-                Node text3 = (Node)hour.item(0).getFirstChild();
-                String strHour = text3.getNodeValue();
-                get_hour.add(strHour);
+                // 날씨정보
+                NodeList wf = element.getElementsByTagName("wf");
+                Node text2 = (Node)wf.item(0).getFirstChild();
+                String strWf = text2.getNodeValue();
+                get_wf.add(strWf);
+
+                // 최저온도
+                NodeList tmn = element.getElementsByTagName("tmn");
+                Node text3 = (Node)tmn.item(0).getFirstChild();
+                String strTmn = text3.getNodeValue();
+                get_tmn.add(strTmn);
+
+                // 최고온도
+                NodeList tmx = element.getElementsByTagName("tmx");
+                Node text4 = (Node)tmx.item(0).getFirstChild();
+                String strTmx = text4.getNodeValue();
+                get_tmx.add(strTmx);
+
+                System.out.println("##############" + get_tmEf.get(i));
+                System.out.println("##############" + get_wf.get(i));
+                System.out.println("##############" + get_tmn.get(i));
+                System.out.println("##############" + get_tmx.get(i));
 
             }
-            System.out.println(get_temp.get(0)+get_temp.get(1)+get_temp.get(2)+get_temp.get(3)+get_temp.get(4));
-            System.out.println(get_wfKor.get(0) + get_wfKor.get(1) + get_wfKor.get(2) + get_wfKor.get(3) + get_wfKor.get(4));
-            System.out.println(get_hour.get(0)+get_hour.get(1)+get_hour.get(2)+get_hour.get(3)+get_hour.get(4));
 
-            int icon = getProperResourceId(get_wfKor.get(0).toString().trim());
-            System.out.println("#######icon : "+icon);
+            // 아이콘
+            for(int j=0; j<13; j++){
+                int icon = getIcon(get_wf.get(j).toString().trim());
+                get_icon.add(icon);
+            }
 
-            ScheduleListItem wItem = new ScheduleListItem(get_hour.get(0), get_temp.get(0), get_wfKor.get(0), icon); //현재 날씨 저장
+            ScheduleListItem wItem1 = new ScheduleListItem(get_tmEf.get(0), get_wf.get(0), get_tmn.get(0), get_tmx.get(0), get_icon.get(0));
+            ScheduleListItem wItem2 = new ScheduleListItem(get_tmEf.get(1), get_wf.get(1), get_tmn.get(1), get_tmx.get(1), get_icon.get(1));
+            ScheduleListItem wItem3 = new ScheduleListItem(get_tmEf.get(2), get_wf.get(2), get_tmn.get(2), get_tmx.get(2), get_icon.get(2));
+            ScheduleListItem wItem4 = new ScheduleListItem(get_tmEf.get(3), get_wf.get(3), get_tmn.get(3), get_tmx.get(3), get_icon.get(3));
+            ScheduleListItem wItem5 = new ScheduleListItem(get_tmEf.get(4), get_wf.get(4), get_tmn.get(4), get_tmx.get(4), get_icon.get(4));
+            ScheduleListItem wItem6 = new ScheduleListItem(get_tmEf.get(5), get_wf.get(5), get_tmn.get(5), get_tmx.get(5), get_icon.get(5));
+            ScheduleListItem wItem7 = new ScheduleListItem(get_tmEf.get(6), get_wf.get(6), get_tmn.get(6), get_tmx.get(6), get_icon.get(6));
+            ScheduleListItem wItem8 = new ScheduleListItem(get_tmEf.get(7), get_wf.get(7), get_tmn.get(7), get_tmx.get(7), get_icon.get(7));
+            ScheduleListItem wItem9 = new ScheduleListItem(get_tmEf.get(8), get_wf.get(8), get_tmn.get(8), get_tmx.get(8), get_icon.get(8));
+            ScheduleListItem wItem10 = new ScheduleListItem(get_tmEf.get(9), get_wf.get(9), get_tmn.get(9), get_tmx.get(9), get_icon.get(9));
+            ScheduleListItem wItem11 = new ScheduleListItem(get_tmEf.get(10), get_wf.get(10), get_tmn.get(10), get_tmx.get(10), get_icon.get(10));
+            ScheduleListItem wItem12 = new ScheduleListItem(get_tmEf.get(11), get_wf.get(11), get_tmn.get(11), get_tmx.get(11), get_icon.get(11));
+            ScheduleListItem wItem13 = new ScheduleListItem(get_tmEf.get(12), get_wf.get(12), get_tmn.get(12), get_tmx.get(12), get_icon.get(12));
+
+
+
+
 
             if (outScheduleList == null) {
                 outScheduleList = new ArrayList<ScheduleListItem>();
             }
-            outScheduleList.add(wItem);
+            outScheduleList.add(wItem1);
+            outScheduleList.add(wItem2);
+            outScheduleList.add(wItem3);
+            outScheduleList.add(wItem4);
+            outScheduleList.add(wItem5);
+            outScheduleList.add(wItem6);
+            outScheduleList.add(wItem7);
+            outScheduleList.add(wItem8);
+            outScheduleList.add(wItem9);
+            outScheduleList.add(wItem10);
+            outScheduleList.add(wItem11);
+            outScheduleList.add(wItem12);
+            outScheduleList.add(wItem13);
 
             System.out.println(outScheduleList.get(0));
             monthViewAdapter.putSchedule(curPosition, outScheduleList);
 
             scheduleAdapter.scheduleList = outScheduleList;
             scheduleAdapter.notifyDataSetChanged();
+
             /*super.onPostExecute(doc);*/
         }
 
         // 날씨 아이콘
-        private int getProperResourceId(String weather){
+        private int getIcon(String weather){
             if(weather.equals("맑음")){
                 return R.drawable.nb01;
             }else if(weather.equals("구름조금")){
@@ -258,6 +307,10 @@ public class MainActivity extends ActionBarActivity {
                 return R.drawable.nb08;
             }else if(weather.equals("눈")) {
                 return R.drawable.nb11;
+            }else if(weather.equals("비/눈")) {
+                return R.drawable.nb12;
+            }else if(weather.equals("눈/비")) {
+                return R.drawable.nb13;
             }else{
                 return R.drawable.nb01;
             }

@@ -11,28 +11,34 @@
         android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/weather_hour"
+            android:id="@+id/weather_tmEf"
             android:layout_width="80dp"
             android:layout_height="wrap_content"
             android:layout_marginRight="1dp"
             android:textColor="#ff000000"
-            android:textSize="16dp" />
+            android:textSize="13dp" />
 
         <TextView
-            android:id="@+id/weather_temp"
+            android:id="@+id/weather_wf"
             android:layout_width="80dp"
             android:layout_height="wrap_content"
             android:layout_marginRight="1dp"
             android:textColor="#ff000000"
-            android:textSize="16dp" />
+            android:textSize="13dp" />
 
         <TextView
-            android:id="@+id/weather_wfKor"
-            android:layout_width="100dp"
+            android:id="@+id/weather_tmn"
+            android:layout_width="50dp"
             android:layout_height="wrap_content"
-
             android:textColor="#ff000000"
-            android:textSize="16dp" />
+            android:textSize="13dp" />
+
+        <TextView
+            android:id="@+id/weather_tmx"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:textColor="#ff000000"
+            android:textSize="13dp" />
 
         <ImageView
             android:id="@+id/weather_icon"
