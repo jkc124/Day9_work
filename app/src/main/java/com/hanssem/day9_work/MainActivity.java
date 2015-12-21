@@ -137,42 +137,7 @@ public class MainActivity extends ActionBarActivity {
     }
 
 
-    private void showScheduleInput() {
-        Intent intent = new Intent(this, ScheduleInputActivity.class);
-        startActivityForResult(intent, REQUEST_CODE_SCHEDULE_INPUT);
-    }
-
-
-    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        super.onActivityResult(requestCode, resultCode, intent);
-
-        if (intent != null) {
-            if (requestCode == REQUEST_CODE_SCHEDULE_INPUT) {
-                String time = intent.getStringExtra("time");
-                String message = intent.getStringExtra("message");
-
-                if (message != null) {
-                    Toast toast = Toast.makeText(getBaseContext(), "result code : " + resultCode + ", time : " + time + ", message : " + message, Toast.LENGTH_LONG);
-                    toast.show();
-
-                    ScheduleListItem aItem = new ScheduleListItem(time, message);
-                    /*ScheduleListItem wItem = new ScheduleListItem(hour, temp, wfKor);*/
-
-
-                    if (outScheduleList == null) {
-                        outScheduleList = new ArrayList<ScheduleListItem>();
-                    }
-                    outScheduleList.add(aItem);
-
-                    monthViewAdapter.putSchedule(curPosition, outScheduleList);
-
-                    scheduleAdapter.scheduleList = outScheduleList;
-                    scheduleAdapter.notifyDataSetChanged();
-                }
-            }
-        }
-    }
-
+    // 내부클래스 AsyncTask
     public class GetXML extends AsyncTask<String, Void, Document>{
 
         Document doc;
@@ -209,7 +174,6 @@ public class MainActivity extends ActionBarActivity {
                 // 날짜
                 NodeList tmEf = element.getElementsByTagName("tmEf");
                 Node text1 = (Node)tmEf.item(0).getFirstChild();
-                System.out.println("###########################"+text1.getNodeValue().substring(11, 16));
                 if(text1.getNodeValue().substring(11, 16).contains("00:00")){
                     String strTmEf = text1.getNodeValue().substring(5, 11)+"오전";
                     get_tmEf.add(strTmEf);
@@ -235,15 +199,9 @@ public class MainActivity extends ActionBarActivity {
                 Node text4 = (Node)tmx.item(0).getFirstChild();
                 String strTmx = text4.getNodeValue();
                 get_tmx.add(strTmx);
-
-                System.out.println("##############" + get_tmEf.get(i));
-                System.out.println("##############" + get_wf.get(i));
-                System.out.println("##############" + get_tmn.get(i));
-                System.out.println("##############" + get_tmx.get(i));
-
             }
 
-            // 아이콘
+            // 아이콘 배열에 담기
             for(int j=0; j<13; j++){
                 int icon = getIcon(get_wf.get(j).toString().trim());
                 get_icon.add(icon);
@@ -262,9 +220,6 @@ public class MainActivity extends ActionBarActivity {
             ScheduleListItem wItem11 = new ScheduleListItem(get_tmEf.get(10), get_wf.get(10), get_tmn.get(10), get_tmx.get(10), get_icon.get(10));
             ScheduleListItem wItem12 = new ScheduleListItem(get_tmEf.get(11), get_wf.get(11), get_tmn.get(11), get_tmx.get(11), get_icon.get(11));
             ScheduleListItem wItem13 = new ScheduleListItem(get_tmEf.get(12), get_wf.get(12), get_tmn.get(12), get_tmx.get(12), get_icon.get(12));
-
-
-
 
 
             if (outScheduleList == null) {

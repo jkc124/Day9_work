@@ -47,50 +47,7 @@ public class ScheduleListItem {
 
 
 
-
-    public String getTime() {
-        return time;
-    }
-
-    public void setTime(String time) {
-        this.time = time;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-
     // 날씨정보
-    public String getHour(){return hour;}
-
-    public void setHour(String hour){
-        this.hour = hour;
-    }
-
-    public String getTemp(){return temp;}
-
-    public void setTemp(String temp){
-        this.temp = temp;
-    }
-
-    public String getWkKor(){return wkKor;}
-
-    public void setWkKor(String wkKor){
-        this.wkKor = wkKor;
-    }
-
-    public int getIcon(){return icon;}
-
-    public void setIcon(int icon){
-        this.icon = icon;
-    }
-
-    //new
     public String getTmEf(){return tmEf;}
 
     public void setTmEf(String tmEf){
@@ -113,6 +70,12 @@ public class ScheduleListItem {
 
     public void setTmx(String tmx){
         this.tmx = tmx;
+    }
+
+    public int getIcon(){return icon;}
+
+    public void setIcon(int icon){
+        this.icon = icon;
     }
 
 
